@@ -27,7 +27,17 @@ class Labelwriter:
         self._socket.send(bencmsg(command))
     
 
-    def beep(self):
-        self.send_single_command("SOUND 850,10 : SOUND 950,10 ")
+    def send_print_command(self):
+        command = "<STX><ETB><ETX>"
+        self.send_single_command(command)
+
+    def send_text_command(self):
+        command = """                                                                             
+        <STX><ESC>E4<ETX>                                                                                                                             
+        <STX><CAN><ETX>                                                                      
+        <STX>THIS IS THE SAMPLE LABEL<CR><ETX>                           
+        <STX><ETB><ETX>             
+        """
+        self.send_single_command(command)
 
 
