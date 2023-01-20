@@ -89,11 +89,16 @@ class Labelwriter:
             for row in range(image_height):
                 for byte in range(bytes_per_row):
                     # Format HEX byte to binary
-                    binary_row += format(255 - struct.unpack("B",
+                    # byte = 1 pixel
+                    # we want to take that byte and turn it into either black or white
+                    binary_row += format(255-struct.unpack("B",
                                          bmp.read(1))[0], "08b")
-
+                    
                 binary = binary_row[:image_width]
                 binary_rows.append(binary)
+                # print("Binary row:", len(binary_row))
+                # print("length of binary:", len(binary))
+                # return
                 IPL += "{}u{},{};{}".format(STX, row_count, binary, ETX)
                 row_count += 1
                 binary_row = ""
