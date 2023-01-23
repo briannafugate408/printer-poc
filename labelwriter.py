@@ -1,6 +1,7 @@
 from socketconn import SocketConnection
 import struct
-from PIL import Image
+import PIL.Image
+from tkinter import *
 
 def bencmsg(msg):
     crlf = "\r\n"
@@ -47,7 +48,7 @@ class Labelwriter:
 
     # Currently supports one bit bitmap images only
     def send_print_bitmap_image_command(self, image_path):
-        img = Image.open(image_path)
+        img = PIL.Image.open(image_path)
         width = img.width
         height = img.height
         print("Weight:", width)
@@ -62,7 +63,7 @@ class Labelwriter:
         for y in range(height):
             columns = []
             for x in range(width):
-                r = img.getpixel((x,y))[0]
+                r = img.getpixel((x,y))
                 # print
                 # check quad 1 range 
                 if r <= black_threshold:
@@ -126,7 +127,7 @@ class Labelwriter:
             <STX><ESC>E8<ETX>
             <STX><ETB><ETX>
         """)
-
+    
     def send_single_command(self, command):
         self._socket.send(bencmsg(command))
 
